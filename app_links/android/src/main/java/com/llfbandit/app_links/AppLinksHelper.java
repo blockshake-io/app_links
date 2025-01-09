@@ -79,11 +79,26 @@ public class AppLinksHelper {
 //    }
   }
 
+  /**
+   * This code snippet is adapted from:
+   * Repository: https://github.com/microg/SafeParcel
+   * Original Author: 2015, microG Project Team
+   * License: Apache 2.0
+   */
+
   private static int readParcelSize(Parcel parcel, int header) {
     if ((header & 0xFFFF0000) != 0xFFFF0000)
       return header >> 16 & 0xFFFF;
     return parcel.readInt();
   }
+
+
+  /**
+   * This code snippet is adapted from:
+   * Repository: https://github.com/microg/SafeParcel
+   * Original Author: 2015, microG Project Team
+   * License: Apache 2.0
+   */
 
   private static String readParcelString(Parcel parcel, int header) {
     int size = readParcelSize(parcel, header);
