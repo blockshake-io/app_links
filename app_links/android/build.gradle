@@ -40,5 +40,4 @@ android {
 
 dependencies {
     implementation 'androidx.annotation:annotation:1.3.0'
-    implementation 'org.microg:safe-parcel:1.7.0'
 }

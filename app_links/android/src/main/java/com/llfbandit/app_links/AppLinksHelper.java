@@ -8,8 +8,6 @@ import android.content.Intent;
 import android.os.Parcel;
 import android.util.Log;
 
-import org.microg.safeparcel.SafeParcelReader;
-
 public class AppLinksHelper {
   private static final String FIREBASE_DYNAMIC_LINKS_DATA = "com.google.firebase.dynamiclinks.DYNAMIC_LINK_DATA";
 
@@ -42,7 +40,7 @@ public class AppLinksHelper {
     parcel.setDataPosition(0);
 
     int header = parcel.readInt();
-    return SafeParcelReader.readString(parcel, header);
+    return readParcelString(parcel, header);
   }
 
   private static String getUrl(Intent intent) {
@@ -79,5 +77,21 @@ public class AppLinksHelper {
 //        }
 //      }
 //    }
+  }
+
+  private static int readParcelSize(Parcel parcel, int header) {
+    if ((header & 0xFFFF0000) != 0xFFFF0000)
+      return header >> 16 & 0xFFFF;
+    return parcel.readInt();
+  }
+
+  private static String readParcelString(Parcel parcel, int header) {
+    int size = readParcelSize(parcel, header);
+    if (size == 0)
+      return null;
+    int start = parcel.dataPosition();
+    String string = parcel.readString();
+    parcel.setDataPosition(start + size);
+    return string;
   }
 }
